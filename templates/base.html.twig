@@ -2,11 +2,17 @@
 <html>
     <head>
         <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>{% block title %}Welcome!{% endblock %}</title>
+        <link rel="stylesheet" type="text/css" href="{{ asset('css/bootstrap.min.css') }}">
+        <link rel="stylesheet" type="text/css" href="{{ asset('css/chosen.min.css') }}">
         {% block stylesheets %}{% endblock %}
     </head>
-    <body>
+    <body class="bg-light">
         {% block body %}{% endblock %}
+        <script src="{{ asset('js/jquery.min.js') }}"></script>
+        <script src="{{ asset('js/language.js') }}"></script>
+        <script src="{{ asset('js/chosen.jquery.min.js') }}"></script>
         {% block javascripts %}{% endblock %}
     </body>
 </html>

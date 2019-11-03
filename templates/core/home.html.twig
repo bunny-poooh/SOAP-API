@@ -1,0 +1,154 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello CoreController!{% endblock %}
+
+{% block body %}
+<div class="container mt-3">
+	<button class="btn btn-sm btn-info	" id="showDetails">
+		Show API Details
+	</button>
+	<div class="row mt-3" id="apiDetails" style="display: none;">
+		<div class="col-md-6 mt-3">
+			<div class="card">
+				<div class="card-header">
+					<h2>API Details</h2>
+				</div>
+				<div class="card-body">
+					<ul>
+						<h6 class="card-title">API URL: {{ options.soapApiUrl }}</h6>
+						<h6 class="card-title">API Username: {{ options.clientUsername }}</h6>
+						<h6 class="card-title">API Password: {{ options.clientPassword }}</h6>
+					</ul>
+				</div>
+				<div class="card-footer">
+					<small class="text-muted">* You can edit API url, username or password in the file <u>/config/services.yaml</u> </small>
+				</div>
+			</div>
+		</div>	
+	</div>
+	<div class="row mt-3">
+		<div class="col-md-12 mt-3">
+			<form class="form" action="{{ path('apiCall') }}" id="apiForm" method="post">
+			<div class="card">
+				<div class="card-header">
+					<h2>API Call</h2>
+				</div>
+				<div class="card-body">
+					<div class="row mt-3">
+						<div class="col-md-4">
+							<div class="form-group">
+								<label for="action">Action</label>
+								<select name="action" class="form-control" id="action">
+									<option value="CHKI">CHKI</option>
+								</select>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="form-group">
+								<label for="room">Room</label>
+								<input type="text" name="room" id="room" class="form-control">
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="form-group">
+								<label for="account">Account</label>
+								<input type="text" name="account" id="account" class="form-control">
+							</div>
+						</div>
+					</div>
+					<div class="row mt-3">
+						<div class="col-md-4">
+							<div class="form-group">
+								<label for="name">Name</label>
+								<input type="text" name="name" id="name" class="form-control">
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="form-group">
+								<label for="surname">Surname</label>
+								<input type="text" name="surname" id="surname" class="form-control">
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="form-group">
+								<label for="language">Language</label>
+								<select name="language" id="language" class="form-control"></select>
+							</div>
+						</div>
+					</div>
+					<div class="row mt-3">
+						<div class="col-md-4">
+							<div class="form-group">
+								<label for="vipcode">Vip code</label>
+								<input type="text" name="vipcode" id="vipcode" class="form-control">
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="form-group">
+								<label for="datein">Date In</label>
+								<input type="date" name="datein" id="datein" class="form-control">
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="form-group">
+								<label for="dateout">Date Out</label>
+								<input type="date" name="dateout" id="dateout" class="form-control">
+							</div>
+						</div>
+					</div>
+					<div class="row mt-3">
+						<div class="col-md-4">
+							<div class="form-group">
+								<label for="credit">Credit</label>
+								<input type="text" name="credit" id="credit" class="form-control">
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="form-group">
+								<label for="cos">Cos</label>
+								<input type="text" name="cos" id="cos" class="form-control">
+							</div>
+						</div>
+						<div class="col-md-4">
+							<input type="submit" name="submit" class="btn btn-success mt-4">
+						</div>
+					</div>
+				</div>
+			</div>
+
+			</form>	
+		</div>
+	</div>
+</div>
+{% endblock %}
+
+{% block javascripts %}
+<script>
+	jQuery(document).ready(function ($) {
+		for(lang in language){
+			$('#language').append(`<option value="${language[lang].alpha2}"> 
+	               ${language[lang].English} 
+	          </option>`); 
+		}
+		$('#language').chosen();
+		$('#showDetails').on('click', function (e) {
+			e.preventDefault();
+			$('#apiDetails').toggle("slow");
+		});
+		$('#apiForm').on('submit', function (e) {
+			e.preventDefault();
+			var formData = new FormData(this);
+			$.ajax({
+				url: $(this).attr('action'),
+				method: $(this).attr('method'),
+				data: formData,
+				contentType: false,
+				processData: false,
+				success: function (response) {
+					console.log(response);
+				}
+			});
+		})
+	});
+</script>
+{% endblock %}
